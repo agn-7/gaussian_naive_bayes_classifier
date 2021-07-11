@@ -76,7 +76,6 @@ Assuming that features are independently, we have to use variance not
 covariance and we can use the multiply of uni-variate gaussian distributions.
 '''
 
-# TODO
 remove_zero = lambda i: 0.01 if i < 0.001 else i
 '''plug a very small value instead of zero in order to avoid divided by zero'''
 vfunc = np.vectorize(remove_zero)
