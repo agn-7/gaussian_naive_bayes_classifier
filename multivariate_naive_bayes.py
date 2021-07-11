@@ -1,5 +1,3 @@
-# TODO
-
 import numpy as np
 
 
@@ -51,6 +49,10 @@ data_set = np.array([
 ])
 categories = np.array([0, 0, 0, 1, 1, 1])
 
+test_data = np.array([
+    [1, 22, 15, 12, 4.5, 0]
+])
+
 y_probability_1 = len(data_set[:3]) / (len(data_set[:3]) + len(data_set[3:]))
 y_probability_2 = len(data_set[3:]) / (len(data_set[:3]) + len(data_set[3:]))
 likelihood = '''Suppose is a gaussian distribution.'''
@@ -60,25 +62,29 @@ mean1 = np.mean(data_set[:3], axis=0)
 std1 = np.std(data_set[:3], axis=0)
 variance1 = np.square(std1)  # pow(x, 2)
 covariance1 = np.cov(np.stack(data_set[:3], axis=1))
+print(mean1)
+print(variance1)
 
 mean2 = np.mean(data_set[3:], axis=0)
 std2 = np.std(data_set[3:], axis=0)
 variance2 = np.square(std2)  # pow(std2, 2)
-x = np.array([[0, 3, 4], [1, 2, 4], [3, 4, 5]])
 covariance2 = np.cov(np.stack(data_set[3:], axis=1))
 
 covariance_total = np.cov(np.stack(data_set, axis=0))
-'''Assuming that features are independently, we have to use variance not 
+'''
+Assuming that features are independently, we have to use variance not 
 covariance and we can use the multiply of uni-variate gaussian distributions.
 '''
+
+# TODO
+print(np.shape(mean1))
+print(np.shape(covariance1))
+print(gaussian_uni(x=test_data, mu=mean1, sig=variance1))
 
 
 def test(i):
     gaussians1 = []
     gaussians2 = []
-    print(np.shape(mean1))
-    print(np.shape(covariance1))
-    print(gaussian_uni(x=i, mu=mean1, sig=variance1))
     for i in data_set[3:]:
         print(111111111111111111111)
         print(i)
@@ -101,11 +107,10 @@ def data_set_test():
     for i in data_set:
         test(i)
 
+
+# TODO
 #
 # data_set_test()
-# test_data = np.array([
-#     [1, 22, 15, 12, 4.5, 0]
-# ])
 #
 # print('Test Data:')
 # for i in test_data:
