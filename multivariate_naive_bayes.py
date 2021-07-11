@@ -62,8 +62,8 @@ mean1 = np.mean(data_set[:3], axis=0)
 std1 = np.std(data_set[:3], axis=0)
 variance1 = np.square(std1)  # pow(x, 2)
 covariance1 = np.cov(np.stack(data_set[:3], axis=1))
-print(mean1)
-print(variance1)
+# print(mean1)
+# print(variance1)
 
 mean2 = np.mean(data_set[3:], axis=0)
 std2 = np.std(data_set[3:], axis=0)
@@ -77,27 +77,28 @@ covariance and we can use the multiply of uni-variate gaussian distributions.
 '''
 
 # TODO
-print(np.shape(mean1))
-print(np.shape(covariance1))
-print(gaussian_uni(x=test_data, mu=mean1, sig=variance1))
+remove_zero = lambda i: 0.01 if i < 0.001 else i
+'''plug a very small value instead of zero in order to avoid divided by zero'''
+vfunc = np.vectorize(remove_zero)
+variance1 = vfunc(variance1)
+variance2 = vfunc(variance2)
 
 
 def test(i):
-    gaussians1 = []
-    gaussians2 = []
-    for i in data_set[3:]:
-        print(111111111111111111111)
-        print(i)
-        gaussians1.append(gaussian_uni(x=i, mu=mean1, sig=variance1))
+    gaussians1 = gaussian_uni(x=i, mu=mean1, sig=variance1)
+    gaussians2 = gaussian_uni(x=i, mu=mean2, sig=variance2)
 
-    for i in data_set[:3]:
-        print(i)
-        gaussians2.append(gaussian_uni(x=i, mu=mean2, sig=variance2))
+    gaussians1 *= 10e5
+    gaussians2 *= 10e5
+    '''Normalization'''
 
-    gaussians1_res = multiply(gaussians1)
-    gaussians2_res = multiply(gaussians2)
+    gaussians1 = vfunc(gaussians1)
+    gaussians2 = vfunc(gaussians2)
+    gaussian1 = np.prod(gaussians1)
+    gaussian2 = np.prod(gaussians2)
+    '''Multiplication gaussians together'''
 
-    if gaussians1_res * y_probability_1 > gaussians2_res * y_probability_2:
+    if gaussian1 * y_probability_1 > gaussian2 * y_probability_2:
         print("{} belongs to the class 0 which is Cat".format(i))
     else:
         print("{} belongs to the class 1 which is Dog".format(i))
@@ -108,10 +109,8 @@ def data_set_test():
         test(i)
 
 
-# TODO
-#
-# data_set_test()
-#
-# print('Test Data:')
-# for i in test_data:
-#     test(i)
+data_set_test()
+
+print('Test Data:')
+for i in test_data:
+    test(i)
