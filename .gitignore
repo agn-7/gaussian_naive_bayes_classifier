@@ -6,3 +6,5 @@ __pycache__/
 ## Pycharm
 .idea/
 idea/
+
+.ipynb_checkpoints/
